@@ -1,5 +1,5 @@
 :root {
-    --background-color: rgba(80, 205, 113, 0.918);
+    --background-color: rgba(40, 133, 255, 0.918);
     --text-color: rgb(0, 0, 0);
     --nav-bar-color: rgb(243, 237, 237);
     --task-list-color: rgb(243, 237, 237);
@@ -32,7 +32,7 @@ nav {
     margin: 1rem;
     transform: translate(0);
     transition: transform .3s ease;
-    box-shadow: 0px 10px 20px rgba(24, 72, 23, 0.5);
+    box-shadow: 0px 10px 20px rgba(20, 47, 98, 0.5);
 }
 
 .collapse {
@@ -67,7 +67,7 @@ main {
     border-radius: 20px;
     padding: 10px;
     margin: 1rem;
-    box-shadow: 0px 10px 20px rgba(24, 72, 23, 0.5);
+    box-shadow: 0px 10px 20px rgba(20, 47, 98, 0.5);
 }
 
 .header {
@@ -108,7 +108,7 @@ main {
 .project:hover{
     cursor: pointer;
     background-color: lightgray;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 svg {
