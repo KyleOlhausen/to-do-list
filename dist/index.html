@@ -9,5 +9,38 @@
 </head>
 <body>
     
+    <div id="header">
+        <h1 id="projName"></h1>
+    </div>
+    <div>
+        <div id="task-container">
+        <!--<li class="task">
+                <div class="task-content">
+                    <p>task</p>
+                </div>
+                <div class="task-content">
+                    <p>date</p>
+                </div>
+            </li> -->
+        </div>
+
+        <form id="taskForm" class="hidden">
+            <div>
+                <input type="text" placeholder="Enter task name" id="taskNameInput">
+                <input type="text" placeholder="Enter description" id="descriptionInput">
+                <!--
+                date 
+                priority
+                -->
+                <div>
+                    <input type="submit" value="Submit" id="taskSubmitBtn">
+                    <input type="button" value="Cancel" id="taskCancelBtn">
+                </div>
+            </div>
+        </form>
+        <button id="addTaskBtn">Add Task</button>
+    </div>
+
+
 </body>
 </html>
