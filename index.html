@@ -9,37 +9,81 @@
 </head>
 <body>
     
-    <div id="header">
-        <h1 id="projName"></h1>
-    </div>
-    <div>
-        <div id="task-container">
-        <!--<li class="task">
-                <div class="task-content">
-                    <p>task</p>
+
+
+
+    <nav class="collapse">
+
+        <div class="project-container">
+            <div class="project-container-header">
+                <div class="nav-title">
+                    <svg fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M459.897 902.842v689.845h1034.767v-574.87h230.064v804.819H229.948V902.842h229.949Zm1299.37-570.916L1920 496.455l-845.06 825.86-408.044-398.846 160.85-164.413 247.194 241.675 684.326-668.805ZM459.896 98v230.063H689.96v229.949H459.897v229.833H229.948V558.012H0V328.063h229.948V98h229.949Zm919.816 229.983V557.93h-574.87V327.983h574.87Z" fill-rule="evenodd"></path> </g></svg>
+                    <h1>To Do Lists</h1>
                 </div>
-                <div class="task-content">
-                    <p>date</p>
-                </div>
-            </li> -->
+                <svg class="nav-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
+            </div>
+            
+            <div class="default-projects">
+                <ul class="default-project-list">
+                    <li class="project">Inbox</li>
+                    <li class="project">Today</li>
+                    <li class="project">This Week</li>
+                    <li class="project">Important</li>
+                </ul>
+            </div>
+            <h2>Projects</h2>
+            <div class="custom-projects">
+                <ul class="custom-project-list">
+                    <li class="project">placeholder</li>
+                    <li class="project">placeholder</li>
+                    <li class="project">placeholder</li>
+
+                </ul>
+            </div>
+
         </div>
 
-        <form id="taskForm" class="hidden">
-            <div>
-                <input type="text" placeholder="Enter task name" id="taskNameInput">
-                <input type="text" placeholder="Enter description" id="descriptionInput">
-                <!--
-                date 
-                priority
-                -->
+    </nav>
+
+
+
+    <main class="center">
+        <div class="header">
+            <svg class="hamburger-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            
+            <h1 class="proj-name">TEST</h1>
+
+            <svg class="hamburger-right hidden-menu-btn" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+
+        </div>
+
+        <div class="task-list-container">
+
+            <ul class="task-list">
+                <li class="task">
+                    <div class="task-content">
+                        <p>task</p>
+                    </div>
+                    <div class="task-content">
+                        <p>date</p>
+                    </div>
+                </li>
+            </ul>
+        
+
+            <form id="taskForm" class="hidden">
                 <div>
-                    <input type="submit" value="Submit" id="taskSubmitBtn">
-                    <input type="button" value="Cancel" id="taskCancelBtn">
+                    <input type="text" placeholder="Enter task name" id="taskNameInput">
+                    <input type="text" placeholder="Enter description" id="descriptionInput">
+                    <div>
+                        <input type="submit" value="Submit" id="taskSubmitBtn">
+                        <input type="button" value="Cancel" id="taskCancelBtn">
+                    </div>
                 </div>
-            </div>
-        </form>
-        <button id="addTaskBtn">Add Task</button>
-    </div>
+            </form>
+            <button id="addTaskBtn">Add Task</button>
+        </div>
+    </main>
 
 
 </body>
