@@ -15,7 +15,7 @@
   \**********************/
 /***/ (() => {
 
-eval("\n\n//# sourceURL=webpack://to-do-list/./src/index.js?");
+eval("const navMenu = document.querySelector('nav');\nconst hamburgerLeft = document.querySelector('.hamburger-left');\nconst hamburgerRight = document.querySelector('.hamburger-right');\nconst navClose = document.querySelector('.nav-close');\nconst taskList = document.querySelector('main');\n\nhamburgerLeft.addEventListener('click', () => {\n    navMenu.classList.remove('collapse');\n    hamburgerLeft.classList.add('hidden');\n    hamburgerRight.classList.add('hidden');\n    taskList.classList.remove('center');\n})\n\nhamburgerRight.addEventListener('click', () => {\n    navMenu.classList.remove('collapse');\n    hamburgerLeft.classList.add('hidden');\n    hamburgerRight.classList.add('hidden');\n    taskList.classList.remove('center');\n})\n\nnavClose.addEventListener('click', () => {\n    navMenu.classList.add('collapse');\n    hamburgerLeft.classList.remove('hidden');\n    hamburgerRight.classList.remove('hidden');\n    taskList.classList.add('center');\n})\n\n//# sourceURL=webpack://to-do-list/./src/index.js?");
 
 /***/ })
 
