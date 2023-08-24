@@ -28,20 +28,25 @@
                     <li class="project">Inbox</li>
                     <li class="project">Today</li>
                     <li class="project">This Week</li>
-                    <li class="project">Important</li>
                 </ul>
             </div>
-            <h2>Projects</h2>
+            <h2 class="custom-projects-header">Projects</h2>
             <div class="custom-projects">
                 <ul class="custom-project-list">
                     <li class="project">placeholder</li>
                     <li class="project">placeholder</li>
                     <li class="project">placeholder</li>
-                    <li class="project">placeholder</li>
-                    <li class="project">placeholder</li>
+
 
                 </ul>
-                <button>Add Project</button>
+                <div class="add-proj-container">
+                    <button class="add-proj-btn">Add Project</button>
+                    <form class="proj-form hidden">
+                        <input type="text" placeholder="Enter project name" id="projectNameInput">
+                        <input type="submit" value="+" class="proj-submit-btn">
+                        <input type="button" value="Cancel" class="proj-cancel-btn">
+                    </form>
+                </div>
             </div>
 
         </div>
@@ -68,21 +73,15 @@
                     <label for="task-1">Task 1</label>
                     <p>date</p>
                 </li>
-
             </ul>
         
             <div class="add-task-container">
                 <button class="add-task-btn">Add Task</button>
                 <form class="task-form hidden">
-                    <div>
                         <input type="text" placeholder="Enter task name" id="taskNameInput">
-                        <div>
-                            <input type="submit" value="Submit" class="taskSubmitBtn">
-                            <input type="button" value="Cancel" class="task-cancel-btn">
-                        </div>
-                    </div>
+                        <input type="submit" value="+" class="task-submit-btn">
+                        <input type="button" value="Cancel" class="task-cancel-btn">
                 </form>
-
             </div>
 
         </div>
