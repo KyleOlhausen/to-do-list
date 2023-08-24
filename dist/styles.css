@@ -159,11 +159,28 @@ main {
 
 .task {
     display: flex;
+    justify-content: space-between;
     background-color: var(--task-color);
     padding: 15px;
     border-radius: 6px;
     border: black solid 1px;
     font-size: large;
+}
+
+.task-left {
+    display: flex;
+    gap: 2vw;
+    margin-left: 1vw;
+}
+
+.task-right {
+    display: flex;
+    gap: 5vw;
+    overflow: hidden;
+}
+
+.task svg {
+    height: 20px;
 }
 
 .add-task-container {
@@ -172,7 +189,6 @@ main {
     display: grid;
     width: 95%;
     grid-template-columns: 1fr 4fr;
-    
 }
 
 .task-form {
