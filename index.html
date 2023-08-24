@@ -37,6 +37,8 @@
                     <li class="project">placeholder</li>
                     <li class="project">placeholder</li>
                     <li class="project">placeholder</li>
+                    <li class="project">placeholder</li>
+                    <li class="project">placeholder</li>
 
                 </ul>
                 <button>Add Project</button>
@@ -62,27 +64,27 @@
 
             <ul class="task-list">
                 <li class="task">
-                    <div class="task-content">
-                        <p>task</p>
-                    </div>
-                    <div class="task-content">
-                        <p>date</p>
-                    </div>
+                    <input type="checkbox" id="task-1">
+                    <label for="task-1">Task 1</label>
+                    <p>date</p>
                 </li>
+
             </ul>
         
-
-            <form class="task-form hidden">
-                <div>
-                    <input type="text" placeholder="Enter task name" id="taskNameInput">
-                    <input type="text" placeholder="Enter description" id="descriptionInput">
+            <div class="add-task-container">
+                <button class="add-task-btn">Add Task</button>
+                <form class="task-form hidden">
                     <div>
-                        <input type="submit" value="Submit" id="taskSubmitBtn">
-                        <input type="button" value="Cancel" id="taskCancelBtn">
+                        <input type="text" placeholder="Enter task name" id="taskNameInput">
+                        <div>
+                            <input type="submit" value="Submit" class="taskSubmitBtn">
+                            <input type="button" value="Cancel" class="task-cancel-btn">
+                        </div>
                     </div>
-                </div>
-            </form>
-            <button class="add-task-btn">Add Task</button>
+                </form>
+
+            </div>
+
         </div>
     </main>
 
