@@ -7,6 +7,10 @@ const addTaskBtn = document.querySelector('.add-task-btn');
 const taskForm = document.querySelector('.task-form');
 const cancelTaskBtn = document.querySelector('.task-cancel-btn');
 const addTaskContainer = document.querySelector('.add-task-container');
+const addProjBtn = document.querySelector('.add-proj-btn');
+const projForm = document.querySelector('.proj-form');
+const cancelProjBtn = document.querySelector('.proj-cancel-btn');
+const addProjContainer = document.querySelector('.add-proj-container');
 
 hamburgerLeft.addEventListener('click', () => {
     navMenu.classList.remove('collapse');
@@ -39,4 +43,14 @@ addTaskBtn.addEventListener('click', () => {
 cancelTaskBtn.addEventListener('click', () => {
     taskForm.classList.toggle('hidden');
     addTaskBtn.classList.toggle('hidden');
+});
+
+addProjBtn.addEventListener('click', () => {
+    projForm.classList.toggle('hidden');
+    addProjBtn.classList.toggle('hidden');
+});
+
+cancelProjBtn.addEventListener('click', () => {
+    projForm.classList.toggle('hidden');
+    addProjBtn.classList.toggle('hidden');
 });

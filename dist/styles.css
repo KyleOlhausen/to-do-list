@@ -39,6 +39,8 @@ nav {
 }
 
 
+
+
 .project-container-header {
     display: flex;
     justify-content: space-between;
@@ -50,6 +52,7 @@ nav {
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    margin-left: 40px;
 }
 
 .project-container {
@@ -68,7 +71,7 @@ nav {
     position: relative;
     overflow-y: auto;
     width: 10vh;
-    height: 40%;
+    height: 30%;
 }
 
 .default-project-list, .custom-project-list {
@@ -80,7 +83,8 @@ nav {
 }
 
 .project {
-    padding: 10px;
+    padding: 15px;
+    font-size: 17px;
     width: 100%;
 }
 
@@ -116,6 +120,11 @@ nav {
     justify-content: flex-start;
     gap: 10vw;
     color: white;
+}
+
+.custom-projects-header {
+    margin-left: 20px;
+    padding: 5px;
 }
 
 main {
@@ -160,10 +169,17 @@ main {
 .add-task-container {
     position: absolute;
     bottom: 10px;
-    display: flex;
+    display: grid;
+    width: 95%;
+    grid-template-columns: 1fr 4fr;
+    
 }
 
-
+.task-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;   
+}
 
 svg {
     height: 40px;
@@ -186,6 +202,76 @@ button{
     background-color: var(--button-color);
 }
 
+.add-proj-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.proj-form {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 90%;
+}
+
+#projectNameInput {
+    max-height: 80%;
+    min-height: 40px;
+    min-width: 90%;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.proj-submit-btn {
+    padding: 30px;
+    font-size: larger;
+    border-radius: 30px;
+}
+
+.proj-cancel-btn  {
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.task-cancel-btn {
+    padding: 10px;
+    border-radius: 30px;
+}
+
+.task-submit-btn {
+    font-size: larger;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+#taskNameInput {
+    border-radius: 25px;
+    min-width: 78%;
+    min-height: 30%;
+}
+
+.add-proj-btn {
+    margin-top: 50px;
+    padding: 25px;
+    width: 50%;
+}
+
+.add-proj-btn:hover, .add-task-btn:hover {
+    background-color: rgb(155, 198, 253, .5);
+    cursor: pointer;
+}
+
+.proj-cancel-btn:hover, .task-cancel-btn:hover {
+    background-color: rgba(253, 155, 155, 0.5);
+    cursor: pointer;
+}
+
+.proj-submit-btn:hover, .task-submit-btn:hover {
+    background-color: rgba(180, 253, 155, 0.5);
+    cursor: pointer;
+}
 
 @media(max-width: 1100px){
 
@@ -199,7 +285,7 @@ button{
     nav {
         grid-column: 1/4;
         grid-row: 1/2;
-        height: 500px;
+        height: 600px;
     }
 
     .custom-project-list {
@@ -212,7 +298,6 @@ button{
         grid-row: 2/4;
     }
 
-    
     .collapse {
         transform: translateY(-130%);
     }
@@ -244,5 +329,30 @@ button{
         opacity: 0;
         pointer-events: none;
     }
+
+    .add-proj-container {
+        display: flex;
+        justify-content: space-evenly;
+    }
     
+    .proj-form {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .proj-submit-btn {
+        padding: 20px;
+        border-radius: 30px;
+    }
+    
+    .proj-cancel-btn {
+        padding: 10px;
+        border-radius: 30px;
+    }
+
+    .add-proj-btn{
+        margin-top: 10px;
+        padding: 15px;
+    }
+
 }
