@@ -1,17 +1,20 @@
-import Task from "./task";
 
 export default class Project {
     constructor(name) {
         this.name = name;
-        this.tasks = [];
+        this.taskList = [];
     }
 
     setName(name) {
-        this.name;
+        this.name = name;
     }
 
     getName() {
         return this.name;
+    }
+
+    addTaskToProj(task) {
+        this.taskList.push(task);
     }
 
 }
