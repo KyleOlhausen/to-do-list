@@ -1,6 +1,5 @@
 import { addProject, addTask } from "./index";
-import Project from "./project";
-import Task from "./task";
+import { getProjectList } from "./storage";
 
 
 function initButtons() {
@@ -15,7 +14,24 @@ function initButtons() {
     const addTaskContainer = document.querySelector('.add-task-container');
     const addProjBtn = document.querySelector('.add-proj-btn');
     const projForm = document.querySelector('.proj-form');
-    
+
+
+    const inbox = document.querySelector('.inbox');
+    const today = document.querySelector('.today');
+    const thisWeek = document.querySelector('.this-week');
+
+
+    inbox.addEventListener('click', () => {
+        loadProject('Inbox');
+    })
+
+    today.addEventListener('click', () => {
+        loadProject('Today');
+    })
+
+    thisWeek.addEventListener('click', () => {
+        loadProject('This Week');
+    })
 
     hamburgerLeft.addEventListener('click', () => {
         navMenu.classList.remove('collapse');
@@ -58,10 +74,9 @@ function initButtons() {
 
 
 
-function taskFormInit(projList) {
+function taskFormInit() {
     const addTaskBtn = document.querySelector('.add-task-btn');
     const cancelTaskBtn = document.querySelector('.task-cancel-btn');
-    const tasklist = document.querySelector('.task-list');
     const taskForm = document.querySelector('.task-form');
     const taskNameInput = document.getElementById('taskNameInput');
 
@@ -73,24 +88,13 @@ function taskFormInit(projList) {
     taskForm.addEventListener('submit', e => {
         e.preventDefault();
         addTask(taskNameInput.value)
-        // tasklist.innerHTML +=   `
-        // <li class="task">
-        //     <div class="task-left">
-        //         <input type="checkbox" id="task-1">
-        //         <label for="task-1">${taskNameInput.value}</label>
-        //     </div>
-        //     <div class="task-right">
-        //         <p>date</p>
-        //         <svg class="nav-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
-        //     </div>
-        // </li>`;
-        //console.log(Storage.getProjList());
+
         taskNameInput.value = "";
         addTaskBtn.classList.remove('hidden');
         taskForm.classList.add('hidden');
         
-        const projName = document.querySelector('proj-name')
-        loadProject(projName, projList);
+        let projName = document.querySelector('.proj-name').textContent;
+        loadProject(projName);
         e.preventDefault();
         
         
@@ -99,7 +103,7 @@ function taskFormInit(projList) {
 
 
 
-function projFormInit(projList) {
+function projFormInit() {
     const projForm = document.querySelector('.proj-form');
     const projNameInput = document.getElementById('projectNameInput');
     const cancelProjBtn = document.querySelector('.proj-cancel-btn');
@@ -113,7 +117,7 @@ function projFormInit(projList) {
     projForm.addEventListener('submit', e => {
         e.preventDefault();
         addProject(projNameInput.value);
-        loadProjectList(projList);
+        loadProjectList();
         projNameInput.value = "";
         addProjBtn.classList.remove('hidden');
         projForm.classList.add('hidden');
@@ -121,75 +125,67 @@ function projFormInit(projList) {
 }
 
 
-
-function loadProjectList(projList) {
-    const defaultProjList = document.querySelector('.default-project-list');
+function loadProjectList() {
     const customProjList = document.querySelector('.custom-project-list');
-
-    //clears the display
-    defaultProjList.innerHTML = ``;
     customProjList.innerHTML = ``;
 
+    let projList = getProjectList();
     projList.forEach(proj => {
         const projName = proj.getName();
-
-        const newProjLi = document.createElement('li');
-        newProjLi.textContent = projName;
-        newProjLi.classList.add('project');
-
-        if (projName == "Inbox" || projName == "Today" || projName == "This Week") {
-
+        if (projName !== 'Inbox' && projName !== 'Today' && projName !== 'This Week') {
+            const newProjLi = document.createElement('li');
+            newProjLi.textContent = projName;
+            newProjLi.classList.add('project');
+    
             newProjLi.addEventListener('click', () => {
-                loadProject(projName, projList);
+                loadProject(projName);
             });
-
-            defaultProjList.appendChild(newProjLi);
-        }
-        else {
-            newProjLi.addEventListener('click', () => {
-                loadProject(projName, projList);
-            });
-
+    
             customProjList.appendChild(newProjLi);
-
         }
     })
 }
 
-function loadProject(projName, projList) {
-    //console.log(projName);
+function loadProject(projName) {
+    let projList = getProjectList();
 
     let currProj = projList.find( item => { return item.getName() == projName; });
-
+    
     const projTitle = document.querySelector('.proj-name');
     projTitle.textContent = projName;
 
+
     const tasklist = document.querySelector('.task-list');
+    tasklist.innerHTML = ``;
 
-    console.log(currProj.taskList);
 
+    let i = 0;
     currProj.taskList.forEach(task => {
         const newTaskLi = document.createElement('li');
         newTaskLi.classList.add('task');
+
         const taskleft = document.createElement('div')
         taskleft.classList.add('task-left');
+
+        taskleft.innerHTML = `<input type="checkbox" id="task-${i}"><label for="task-${i}">${task.getName()}</label>`;
+
+
         const taskright = document.createElement('div')
         taskright.classList.add('task-right');
 
-        taskleft.classList.add('task-left');
-        newTaskLi.textContent = task.getName();
+
+        newTaskLi.appendChild(taskleft);
+        newTaskLi.appendChild(taskright);
 
         // newTaskLi.addEventListener(() => {
         //     //delete task, etc
         // });
 
         tasklist.appendChild(newTaskLi);
+        i++;
     });
 
 }
-
-
-
 
 
 

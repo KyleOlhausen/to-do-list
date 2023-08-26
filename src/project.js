@@ -13,8 +13,8 @@ export default class Project {
         return this.name;
     }
 
-    addTaskToProj(task) {
-        this.taskList.push(task);
-    }
+    // addTaskToProj(task) {
+    //     this.taskList.push(task);
+    // }
 
 }

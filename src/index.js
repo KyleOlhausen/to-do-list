@@ -3,6 +3,7 @@ import Project from "./project";
 import Task from "./task";
 import {getProjectList, saveProject} from "./storage";
 import { initButtons, taskFormInit, projFormInit, loadProjectList, loadProject  } from "./UI";
+import { add } from "date-fns";
 
 
 
@@ -11,7 +12,6 @@ import { initButtons, taskFormInit, projFormInit, loadProjectList, loadProject  
 
 
 
-let listOfProjObj = getProjectList();
 
 
 initWebsite();
@@ -28,32 +28,47 @@ function initWebsite() {
 
     initButtons();
     taskFormInit();
-    projFormInit(listOfProjObj);
+    projFormInit();
 
 
-    loadProjectList(listOfProjObj);
-    loadProject('Inbox', listOfProjObj);
+    loadProjectList();
+    loadProject('Inbox');
+
+}
+
+function deleteProject(projName) {
+    
+}
+
+function deleteTask(taskName) {
+
 }
 
 
 function addProject(projName) {
     let newProj = new Project(projName);
-
-    listOfProjObj.push(newProj);
-
     saveProject(newProj);
 }
 
 function addTask(taskName) {
+    console.log('add task');
+
     let newTask = new Task(taskName);
     const currProjName = document.querySelector('.proj-name').textContent;
-    console.log(currProjName);
-    const currProjObj = listOfProjObj.find( item => { return item.getName() == currProjName; });
+    //console.log(currProjName);
+    let projList = getProjectList();
+    const currProjObj = projList.find( item => { return item.getName() == currProjName; });
     
     //console.log(currProjObj);
+    
     currProjObj.taskList.push(newTask);
+
+    //console.log(currProjObj.taskList);
+
     saveProject(currProjObj);
-    loadProject(currProjName, listOfProjObj);
+
+    //console.log(currProjName);
+    loadProject(currProjName);
 }
 
 
