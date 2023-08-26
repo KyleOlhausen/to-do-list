@@ -66,8 +66,6 @@ function initButtons() {
         projForm.classList.toggle('hidden');
         addProjBtn.classList.toggle('hidden');
     });
-    
-
 }
 
 
@@ -95,9 +93,7 @@ function taskFormInit() {
         
         let projName = document.querySelector('.proj-name').textContent;
         loadProject(projName);
-        e.preventDefault();
-        
-        
+        e.preventDefault();  
     });
 }
 
@@ -140,6 +136,9 @@ function loadProjectList() {
             newProjLi.addEventListener('click', () => {
                 loadProject(projName);
             });
+            //eventlistener for clicking X to deleteProject(get name of li(projname string))
+            //after delete loadprojectlist()
+
     
             customProjList.appendChild(newProjLi);
         }
@@ -179,6 +178,7 @@ function loadProject(projName) {
 
         // newTaskLi.addEventListener(() => {
         //     //delete task, etc
+            //loadProject()
         // });
 
         tasklist.appendChild(newTaskLi);

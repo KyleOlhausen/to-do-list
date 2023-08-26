@@ -27,6 +27,15 @@ import Task from "./task";
 //     return projList;
 // }
 
+function deleteProject(projName) {
+    localStorage.removeItem(projName);
+}
+
+function deleteTask(taskName) {
+    localStorage.removeItem(taskName);
+}
+
+
 function saveProject(projObj) {
     localStorage.setItem(projObj.getName(), JSON.stringify(projObj));
 }
@@ -51,7 +60,7 @@ function makeObjectFromStorage(key) {
     tempTaskList.forEach( item => {
         newProj.taskList.push(new Task(item['name']));
     });
-    
+
     return newProj;
 }
 

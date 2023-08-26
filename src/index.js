@@ -36,13 +36,20 @@ function initWebsite() {
 
 }
 
-function deleteProject(projName) {
-    
-}
+// function deleteProject(projName) {
 
-function deleteTask(taskName) {
 
-}
+
+
+//     //loadprojectlist
+// }
+
+// function deleteTask(taskName) {
+
+
+
+//     //loadproject(curr)
+// }
 
 
 function addProject(projName) {
