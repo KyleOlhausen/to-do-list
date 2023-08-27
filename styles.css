@@ -84,8 +84,15 @@ nav {
 
 .project {
     padding: 15px;
+    padding-left: 5vw;
     font-size: 17px;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-delete {
+    height: 20px;
 }
 
 .project:hover{
