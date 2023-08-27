@@ -1,5 +1,6 @@
 import { addProject, addTask } from "./index";
-import { getProjectList } from "./storage";
+import { deleteProject, getProjectList, saveProject } from "./storage";
+import { deleteTask } from "./index";
 
 
 function initButtons() {
@@ -132,17 +133,21 @@ function loadProjectList() {
             const newProjLi = document.createElement('li');
             newProjLi.textContent = projName;
             newProjLi.classList.add('project');
-    
-            newProjLi.addEventListener('click', () => {
-                loadProject(projName);
-            });
-            //eventlistener for clicking X to deleteProject(get name of li(projname string))
-            //after delete loadprojectlist()
-
-    
+            newProjLi.innerHTML += `<svg class="project-delete" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
             customProjList.appendChild(newProjLi);
+    
+            newProjLi.addEventListener('click', (e) => {
+                if (e.target.classList[0] == 'project') {
+                    loadProject(projName);
+                }
+                else if (e.target.classList[0] == 'project-delete') {
+                    deleteProject(e.target.parentElement.textContent.trim());
+                }
+                
+                loadProjectList()
+            });
         }
-    })
+    });
 }
 
 function loadProject(projName) {
@@ -166,24 +171,39 @@ function loadProject(projName) {
         const taskleft = document.createElement('div')
         taskleft.classList.add('task-left');
 
-        taskleft.innerHTML = `<input type="checkbox" id="task-${i}"><label for="task-${i}">${task.getName()}</label>`;
+        taskleft.innerHTML = `<input type="checkbox" id="task-${i}"><label class="task-name" for="task-${i}">${task.getName()}</label>`;
 
 
-        const taskright = document.createElement('div')
+        const taskright = document.createElement('div');
         taskright.classList.add('task-right');
 
+        const taskDelete = document.createElement('div');
+        taskDelete.innerHTML = `<svg class="task-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
 
+
+        taskright.appendChild(taskDelete);
         newTaskLi.appendChild(taskleft);
         newTaskLi.appendChild(taskright);
 
-        // newTaskLi.addEventListener(() => {
-        //     //delete task, etc
-            //loadProject()
-        // });
+
+        newTaskLi.addEventListener('click', e => {
+            const target = e.target;
+            if(target.classList[0] === 'task-close'){
+                let taskname = target.parentElement.parentElement.previousElementSibling.textContent;
+
+                deleteTask(taskname, currProj);
+                saveProject(currProj);
+                loadProject(currProj.getName());
+            }
+        });
+
+
 
         tasklist.appendChild(newTaskLi);
         i++;
     });
+
+    
 
 }
 

@@ -31,14 +31,17 @@ function deleteProject(projName) {
     localStorage.removeItem(projName);
 }
 
-function deleteTask(taskName) {
-    localStorage.removeItem(taskName);
-}
+// function deleteTask(taskName) {
+//     localStorage.removeItem(taskName);
+
+// }
 
 
 function saveProject(projObj) {
     localStorage.setItem(projObj.getName(), JSON.stringify(projObj));
 }
+
+
 
 
 function getProjectList() {
@@ -64,7 +67,7 @@ function makeObjectFromStorage(key) {
     return newProj;
 }
 
-export {saveProject, getProjectList};
+export {saveProject, getProjectList, deleteProject};
 
 
 

@@ -36,20 +36,17 @@ function initWebsite() {
 
 }
 
-// function deleteProject(projName) {
 
 
 
 
-//     //loadprojectlist
-// }
-
-// function deleteTask(taskName) {
-
-
-
-//     //loadproject(curr)
-// }
+function deleteTask(taskname, currProj){
+    for(let i=0; i < currProj.taskList.length; i++) {
+        if (currProj.taskList[i].getName() == taskname){
+            currProj.taskList.splice(i,1);
+        }
+    }
+}
 
 
 function addProject(projName) {
@@ -79,4 +76,4 @@ function addTask(taskName) {
 }
 
 
-export {addProject, addTask};
+export {addProject, addTask, deleteTask};
