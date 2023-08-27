@@ -71,8 +71,6 @@ function initButtons() {
 
 
 
-
-
 function taskFormInit() {
     const addTaskBtn = document.querySelector('.add-task-btn');
     const cancelTaskBtn = document.querySelector('.task-cancel-btn');
@@ -143,25 +141,23 @@ function loadProjectList() {
                 else if (e.target.classList[0] == 'project-delete') {
                     deleteProject(e.target.parentElement.textContent.trim());
                 }
-                
+
                 loadProjectList()
             });
         }
     });
 }
 
+
 function loadProject(projName) {
     let projList = getProjectList();
-
     let currProj = projList.find( item => { return item.getName() == projName; });
     
     const projTitle = document.querySelector('.proj-name');
     projTitle.textContent = projName;
 
-
     const tasklist = document.querySelector('.task-list');
     tasklist.innerHTML = ``;
-
 
     let i = 0;
     currProj.taskList.forEach(task => {
@@ -170,9 +166,7 @@ function loadProject(projName) {
 
         const taskleft = document.createElement('div')
         taskleft.classList.add('task-left');
-
         taskleft.innerHTML = `<input type="checkbox" id="task-${i}"><label class="task-name" for="task-${i}">${task.getName()}</label>`;
-
 
         const taskright = document.createElement('div');
         taskright.classList.add('task-right');
@@ -180,11 +174,9 @@ function loadProject(projName) {
         const taskDelete = document.createElement('div');
         taskDelete.innerHTML = `<svg class="task-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
 
-
         taskright.appendChild(taskDelete);
         newTaskLi.appendChild(taskleft);
         newTaskLi.appendChild(taskright);
-
 
         newTaskLi.addEventListener('click', e => {
             const target = e.target;
@@ -197,14 +189,9 @@ function loadProject(projName) {
             }
         });
 
-
-
         tasklist.appendChild(newTaskLi);
         i++;
     });
-
-    
-
 }
 
 

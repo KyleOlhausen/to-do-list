@@ -1,4 +1,3 @@
-
 export default class Project {
     constructor(name) {
         this.name = name;
@@ -12,9 +11,4 @@ export default class Project {
     getName() {
         return this.name;
     }
-
-    // addTaskToProj(task) {
-    //     this.taskList.push(task);
-    // }
-
 }

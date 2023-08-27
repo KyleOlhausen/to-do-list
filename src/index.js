@@ -7,18 +7,10 @@ import { add } from "date-fns";
 
 
 
-
-
-
-
-
-
-
 initWebsite();
     
 
 function initWebsite() {
-
 
     if (window.localStorage.length == 0) {
         addProject("Inbox");
@@ -30,14 +22,9 @@ function initWebsite() {
     taskFormInit();
     projFormInit();
 
-
     loadProjectList();
     loadProject('Inbox');
-
 }
-
-
-
 
 
 function deleteTask(taskname, currProj){
@@ -53,6 +40,7 @@ function addProject(projName) {
     let newProj = new Project(projName);
     saveProject(newProj);
 }
+
 
 function addTask(taskName) {
     console.log('add task');
