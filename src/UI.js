@@ -217,7 +217,7 @@ function loadProject(projName) {
 
         taskright.appendChild(taskDetails);
         // taskright.appendChild(taskEdit);
-        // taskright.appendChild(taskDelete);
+        taskright.appendChild(taskDelete);
         newTaskLi.appendChild(taskleft);
         newTaskLi.appendChild(taskright);
 
@@ -225,7 +225,7 @@ function loadProject(projName) {
             const target = e.target;
             if(target.classList[0] === 'task-close'){
                 //taskname probably off by 1 parentelement
-                let taskname = target.parentElement.parentElement.previousElementSibling.textContent;
+                let taskname = target.parentElement.previousElementSibling.textContent;
 
                 deleteTask(taskname, currProj);
                 saveProject(currProj);
