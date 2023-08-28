@@ -4,36 +4,27 @@ import { deleteTask } from "./index";
 
 
 function initButtons() {
+    const inbox = document.querySelector('.inbox');
+    inbox.addEventListener('click', () => {
+        loadProject('Inbox');
+    })
+
+    const today = document.querySelector('.today');
+    today.addEventListener('click', () => {
+        loadProject('Today');
+    })
+
+    const thisWeek = document.querySelector('.this-week');
+    thisWeek.addEventListener('click', () => {
+        loadProject('This Week');
+    })
+
     const navMenu = document.querySelector('nav');
     const hamburgerLeft = document.querySelector('.hamburger-left');
     const hamburgerRight = document.querySelector('.hamburger-right');
     const navClose = document.querySelector('.nav-close');
     const main = document.querySelector('main');
-    const addTaskBtn = document.querySelector('.add-task-btn');
-    const taskForm = document.querySelector('.task-form');
-   
     const addTaskContainer = document.querySelector('.add-task-container');
-    const addProjBtn = document.querySelector('.add-proj-btn');
-    const projForm = document.querySelector('.proj-form');
-
-
-    const inbox = document.querySelector('.inbox');
-    const today = document.querySelector('.today');
-    const thisWeek = document.querySelector('.this-week');
-
-
-    inbox.addEventListener('click', () => {
-        loadProject('Inbox');
-    })
-
-    today.addEventListener('click', () => {
-        loadProject('Today');
-    })
-
-    thisWeek.addEventListener('click', () => {
-        loadProject('This Week');
-    })
-
     hamburgerLeft.addEventListener('click', () => {
         navMenu.classList.remove('collapse');
         hamburgerLeft.classList.add('hidden');
@@ -57,12 +48,9 @@ function initButtons() {
         addTaskContainer.classList.remove('hidden');
     });
     
-    addTaskBtn.addEventListener('click', () => {
-        taskForm.classList.toggle('hidden');
-        addTaskBtn.classList.toggle('hidden');
-    });
-    
-    
+
+    const addProjBtn = document.querySelector('.add-proj-btn');
+    const projForm = document.querySelector('.proj-form');
     addProjBtn.addEventListener('click', () => {
         projForm.classList.toggle('hidden');
         addProjBtn.classList.toggle('hidden');
@@ -72,27 +60,36 @@ function initButtons() {
 
 
 function taskFormInit() {
-    const addTaskBtn = document.querySelector('.add-task-btn');
-    const cancelTaskBtn = document.querySelector('.task-cancel-btn');
-    const taskForm = document.querySelector('.task-form');
-    const taskNameInput = document.getElementById('taskNameInput');
 
-    cancelTaskBtn.addEventListener('click', () => {
-        taskForm.classList.add('hidden');
-        addTaskBtn.classList.remove('hidden');
+    const addTaskBtn = document.querySelector('.add-task-btn');
+    const addTaskPopup = document.querySelector('.add-task-popup');
+    const closeTaskPopup = document.querySelector('.close-task-popup');
+    addTaskBtn.addEventListener('click', () => {
+        addTaskPopup.showModal();
     });
+    closeTaskPopup.addEventListener('click', () => {
+        addTaskPopup.close();
+    });
+    
+
+    const taskForm = document.querySelector('.task-form');
+
+    const taskNameInput = document.getElementById('taskNameInput');
+    const taskDescInput = document.getElementById('taskDescInput');
+    const taskDateInput = document.getElementById('taskDateInput');
+    
 
     taskForm.addEventListener('submit', e => {
         e.preventDefault();
-        addTask(taskNameInput.value)
+        const taskPriorityInput = document.querySelector('input[name="priority"]:checked');
+        addTaskPopup.close();
+        addTask(taskNameInput.value, taskDescInput.value, taskDateInput.valueAsDate, taskPriorityInput.value, false);
 
         taskNameInput.value = "";
-        addTaskBtn.classList.remove('hidden');
-        taskForm.classList.add('hidden');
         
         let projName = document.querySelector('.proj-name').textContent;
         loadProject(projName);
-        e.preventDefault();  
+        
     });
 }
 
@@ -142,7 +139,7 @@ function loadProjectList() {
                     deleteProject(e.target.parentElement.textContent.trim());
                 }
 
-                loadProjectList()
+                loadProjectList();
             });
         }
     });
@@ -150,30 +147,63 @@ function loadProjectList() {
 
 
 function loadProject(projName) {
+    //get list of project objects from local storage and find current project
     let projList = getProjectList();
     let currProj = projList.find( item => { return item.getName() == projName; });
     
+    //change header to project title
     const projTitle = document.querySelector('.proj-name');
     projTitle.textContent = projName;
 
+    //clear tasklist
     const tasklist = document.querySelector('.task-list');
     tasklist.innerHTML = ``;
 
+    //loop current project tasklist and create each task
     let i = 0;
     currProj.taskList.forEach(task => {
+        //create li task container
         const newTaskLi = document.createElement('li');
         newTaskLi.classList.add('task');
 
+        //create checkbox and task title (taskleft)
         const taskleft = document.createElement('div')
         taskleft.classList.add('task-left');
-        taskleft.innerHTML = `<input type="checkbox" id="task-${i}"><label class="task-name" for="task-${i}">${task.getName()}</label>`;
+
+        const checkbox = document.createElement('input');
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.setAttribute('id', `task-${i}`)
+        checkbox.checked = task.getChecked();
+
+        const checkboxLabel = document.createElement('label');
+        checkboxLabel.classList.add('task-name');
+        checkboxLabel.setAttribute('for', `task-${i}`);
+        checkboxLabel.textContent = `${task.getName()}`;
+
+        taskleft.appendChild(checkbox);
+        taskleft.appendChild(checkboxLabel);
+
+        //when checkbox clicked toggle checked status and save
+        checkbox.addEventListener('click', () => {
+            task.setChecked(checkbox.checked);
+            saveProject(currProj);
+        });
+        
+        
+
+
+      
 
         const taskright = document.createElement('div');
         taskright.classList.add('task-right');
+        //taskright.innerHTML += `<input type="date" class="input-due-date-${i}">`;
 
+        const taskEdit = document.createElement('div');
+        taskEdit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z" /></svg>`
         const taskDelete = document.createElement('div');
         taskDelete.innerHTML = `<svg class="task-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
 
+        taskright.appendChild(taskEdit);
         taskright.appendChild(taskDelete);
         newTaskLi.appendChild(taskleft);
         newTaskLi.appendChild(taskright);
@@ -190,6 +220,13 @@ function loadProject(projName) {
         });
 
         tasklist.appendChild(newTaskLi);
+
+        // const dateI = document.querySelector(`.input-due-date-${i}`);
+        // console.log(dateI);
+        // dateI.addEventListener('submit', () => {
+        //     console.log('submit');
+        // });
+
         i++;
     });
 }

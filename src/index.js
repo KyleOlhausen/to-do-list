@@ -3,7 +3,7 @@ import Project from "./project";
 import Task from "./task";
 import {getProjectList, saveProject} from "./storage";
 import { initButtons, taskFormInit, projFormInit, loadProjectList, loadProject  } from "./UI";
-import { add } from "date-fns";
+import { format, compareAsc } from "date-fns";
 
 
 
@@ -42,24 +42,21 @@ function addProject(projName) {
 }
 
 
-function addTask(taskName) {
+function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
     console.log('add task');
 
-    let newTask = new Task(taskName);
+    let newTask = new Task(taskName, taskDesc, taskDate, taskPriority, checked);
     const currProjName = document.querySelector('.proj-name').textContent;
-    //console.log(currProjName);
+
     let projList = getProjectList();
     const currProjObj = projList.find( item => { return item.getName() == currProjName; });
-    
-    //console.log(currProjObj);
+
     
     currProjObj.taskList.push(newTask);
 
-    //console.log(currProjObj.taskList);
+    //valueAsDate
 
     saveProject(currProjObj);
-
-    //console.log(currProjName);
     loadProject(currProjName);
 }
 

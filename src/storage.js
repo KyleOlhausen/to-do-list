@@ -27,7 +27,7 @@ function makeObjectFromStorage(key) {
 
     tempTaskList = JSON.parse(localStorage.getItem(key))['taskList'];
     tempTaskList.forEach( item => {
-        newProj.taskList.push(new Task(item['name']));
+        newProj.taskList.push(new Task(item['name'], item['description'], item['dueDate'], item['priority'], item['checked']));
     });
 
     return newProj;
