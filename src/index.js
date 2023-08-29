@@ -2,7 +2,7 @@
 import Project from "./project";
 import Task from "./task";
 import {getProject, saveProject} from "./storage";
-import { initButtons, taskFormInit, projFormInit, loadProjectList, loadProject  } from "./UI";
+import { initNavBtns, initDefaultProjBtns, taskFormInit, projFormInit, loadProjectList, loadProject  } from "./UI";
 import { format, compareAsc } from "date-fns";
 
 
@@ -11,17 +11,17 @@ initWebsite();
     
 
 function initWebsite() {
-
+    //if localStorage is empty create default projects
     if (window.localStorage.length == 0) {
         addProject("Inbox");
         addProject("Today");
         addProject("This Week");
     }
 
-    initButtons();
+    initNavBtns();
+    initDefaultProjBtns();
     taskFormInit();
     projFormInit();
-
     loadProjectList();
     loadProject('Inbox');
 }
