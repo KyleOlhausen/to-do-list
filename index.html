@@ -29,11 +29,11 @@
                 <ul class="custom-project-list"></ul>
                 <div class="add-proj-container">
                     <button class="add-proj-btn">Add Project</button>
-                    <form class="proj-form hidden">
+                    <!-- <form class="proj-form hidden">
                         <input type="text" placeholder="Enter project name" id="projectNameInput">
                         <input type="submit" value="+" class="proj-submit-btn">
                         <input type="button" value="Cancel" class="proj-cancel-btn">
-                    </form>
+                    </form> -->
                 </div>
             </div>
         </div>
@@ -48,11 +48,6 @@
             <ul class="task-list"></ul>
             <div class="add-task-container">
                 <button class="add-task-btn">Add Task</button>
-                <!-- <form class="task-form hidden">
-                        <input type="text" placeholder="Enter task name" id="taskNameInput">
-                        <input type="submit" value="+" class="task-submit-btn">
-                        <input type="button" value="Cancel" class="task-cancel-btn">
-                </form> -->
             </div>
         </div>
     </main>
@@ -118,7 +113,6 @@
     </form>
 </dialog>
 
-
 <dialog class="task-details-popup">
     <button class="close-details-popup">X</button>
     <p class="task-popup-title"></p>
@@ -127,18 +121,12 @@
     <p class="task-popup-priority"></p>
 </dialog>
 
-<!-- <dialog class="add-project-popup">
-    <button class="close-popup"></button>
-    <form class="proj-form hidden">
+<dialog class="add-project-popup">
+    <button class="close-project-popup">X</button>
+    <form class="proj-form" method="dialog">
         <input type="text" placeholder="Enter project name" id="projectNameInput">
         <input type="submit" value="+" class="proj-submit-btn">
-        <input type="button" value="Cancel" class="proj-cancel-btn">
     </form>
-</dialog> -->
-
-<!-- <div class="edit-task-popup">
-
-</div> -->
-
+</dialog>
 
 </html>
