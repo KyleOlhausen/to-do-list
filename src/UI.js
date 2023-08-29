@@ -50,22 +50,14 @@ function initNavBtns() {
     });
 }
 
+
+
 function initButtons() {
     initDefaultProjBtns();
     initNavBtns();
-
-    const addProjBtn = document.querySelector('.add-proj-btn');
-    const projForm = document.querySelector('.proj-form');
-    addProjBtn.addEventListener('click', () => {
-        projForm.classList.toggle('hidden');
-        addProjBtn.classList.toggle('hidden');
-    });
 }
 
-
-
 function taskFormInit() {
-
     const addTaskBtn = document.querySelector('.add-task-btn');
     const addTaskPopup = document.querySelector('.add-task-popup');
     const closeTaskPopup = document.querySelector('.close-task-popup');
@@ -75,22 +67,16 @@ function taskFormInit() {
     closeTaskPopup.addEventListener('click', () => {
         addTaskPopup.close();
     });
-    
 
     const taskForm = document.querySelector('.task-form');
-
     const taskNameInput = document.getElementById('taskNameInput');
     const taskDescInput = document.getElementById('taskDescInput');
     const taskDateInput = document.getElementById('taskDateInput');
     
-
     taskForm.addEventListener('submit', e => {
         e.preventDefault();
         const taskPriorityInput = document.querySelector('input[name="add-priority"]:checked');
         addTaskPopup.close();
-
-        //valueAsDate
-        //use date-fns for formatting here?
 
         addTask(taskNameInput.value, taskDescInput.value, taskDateInput.value, taskPriorityInput.value, false);
 
@@ -98,30 +84,29 @@ function taskFormInit() {
         
         let projName = document.querySelector('.proj-name').textContent;
         loadProject(projName);
-        
     });
 }
 
 
-
 function projFormInit() {
-    const projForm = document.querySelector('.proj-form');
-    const projNameInput = document.getElementById('projectNameInput');
-    const cancelProjBtn = document.querySelector('.proj-cancel-btn');
     const addProjBtn = document.querySelector('.add-proj-btn');
-
-    cancelProjBtn.addEventListener('click', () => {
-        projForm.classList.add('hidden');
-        addProjBtn.classList.remove('hidden');
+    const addProjPopup = document.querySelector('.add-project-popup');
+    const closeProjPopup = document.querySelector('.close-project-popup');
+    addProjBtn.addEventListener('click', () => {
+        addProjPopup.showModal();
+    });
+    closeProjPopup.addEventListener('click', () => {
+        addProjPopup.close();
     });
 
+    const projForm = document.querySelector('.proj-form');
+    const projNameInput = document.getElementById('projectNameInput');
     projForm.addEventListener('submit', e => {
         e.preventDefault();
+        addProjPopup.close();
         addProject(projNameInput.value);
         loadProjectList();
         projNameInput.value = "";
-        addProjBtn.classList.remove('hidden');
-        projForm.classList.add('hidden');
     });
 }
 

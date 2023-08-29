@@ -1,7 +1,7 @@
 //import Storage from "./storage";
 import Project from "./project";
 import Task from "./task";
-import {getProjectList, getProject, saveProject} from "./storage";
+import {getProject, saveProject} from "./storage";
 import { initButtons, taskFormInit, projFormInit, loadProjectList, loadProject  } from "./UI";
 import { format, compareAsc } from "date-fns";
 
