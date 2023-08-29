@@ -35,6 +35,10 @@ function deleteTask(taskname, currProj){
     }
 }
 
+// function editTask(task) {
+
+// }
+
 
 function addProject(projName) {
     let newProj = new Project(projName);
@@ -45,7 +49,10 @@ function addProject(projName) {
 function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
     console.log('add task');
 
-    let newTask = new Task(taskName, taskDesc, taskDate, taskPriority, checked);
+    const parsedDate = new Date(taskDate);
+    const formattedDate = format(parsedDate, 'yyyy-MM-dd');
+
+    let newTask = new Task(taskName, taskDesc, formattedDate, taskPriority, checked);
     const currProjName = document.querySelector('.proj-name').textContent;
 
     let projList = getProjectList();
@@ -54,7 +61,7 @@ function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
     
     currProjObj.taskList.push(newTask);
 
-    //valueAsDate
+    
 
     saveProject(currProjObj);
     loadProject(currProjName);

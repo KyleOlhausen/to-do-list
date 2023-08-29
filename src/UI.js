@@ -81,9 +81,13 @@ function taskFormInit() {
 
     taskForm.addEventListener('submit', e => {
         e.preventDefault();
-        const taskPriorityInput = document.querySelector('input[name="priority"]:checked');
+        const taskPriorityInput = document.querySelector('input[name="add-priority"]:checked');
         addTaskPopup.close();
-        addTask(taskNameInput.value, taskDescInput.value, taskDateInput.valueAsDate, taskPriorityInput.value, false);
+
+        //valueAsDate
+        //use date-fns for formatting here?
+
+        addTask(taskNameInput.value, taskDescInput.value, taskDateInput.value, taskPriorityInput.value, false);
 
         taskNameInput.value = "";
         
@@ -197,7 +201,7 @@ function loadProject(projName) {
         //taskright.innerHTML += `<input type="date" class="input-due-date-${i}">`;
 
         const taskEdit = document.createElement('div');
-        taskEdit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z" /></svg>`
+        taskEdit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="task-edit" viewBox="0 0 24 24"><path d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z" /></svg>`
         taskEdit.classList.add('task-edit');
         // const taskDelete = document.createElement('div');
         // taskDelete.innerHTML = `<svg class="task-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>`
@@ -216,17 +220,18 @@ function loadProject(projName) {
 
 
         taskright.appendChild(taskDetails);
-        // taskright.appendChild(taskEdit);
+        taskright.appendChild(taskEdit);
         taskright.appendChild(taskDelete);
         newTaskLi.appendChild(taskleft);
         newTaskLi.appendChild(taskright);
 
+        //check what part of the taskLi was clicked
         newTaskLi.addEventListener('click', e => {
             const target = e.target;
+            console.log(target);
             if(target.classList[0] === 'task-close'){
-                //taskname probably off by 1 parentelement
+                //delete task
                 let taskname = target.parentElement.previousElementSibling.textContent;
-
                 deleteTask(taskname, currProj);
                 saveProject(currProj);
                 loadProject(currProj.getName());
@@ -253,18 +258,55 @@ function loadProject(projName) {
                 });
                 
             }
-            // else if (target.classList[0] === 'task-edit') {
+            else if (target.classList[0] === 'task-edit') {
+                //open task edit popup
+                const editTaskPopup = document.querySelector('.edit-task-popup');
+                editTaskPopup.showModal();
 
-            // }
+                //set edit fields to current task settings
+                const editTitle = document.getElementById('editTaskNameInput');
+                editTitle.value = task.getName();
+                const editDescription = document.getElementById('editTaskDescInput');
+                editDescription.value = task.getDescription();
+                const editDate = document.getElementById('editTaskDateInput');
+                editDate.value = task.getDueDate();
+
+                //set radio button to currrent priority level
+                if(task.getPriority() == "low"){
+                    const editPriorityLow = document.getElementById('editPriorityLow');
+                    editPriorityLow.checked = true;
+                }else if (task.getPriority() == "medium"){
+                    const editPriorityMedium = document.getElementById('editPriorityMedium');
+                    editPriorityMedium.checked = true;
+                }else if (task.getPriority() == "high"){
+                    const editPriorityHigh = document.getElementById('editPriorityHigh');
+                    editPriorityHigh.checked = true;
+                }
+                
+                //set new task fields when form submitted
+                const editTaskForm = document.querySelector('.edit-task-form');
+                editTaskForm.addEventListener('submit', e => {
+                   e.preventDefault();
+                   task.setName(editTitle.value);
+                   task.setDescription(editDescription.value);
+                   task.setDueDate(editDate.value);
+                   const taskPriorityInput = document.querySelector('input[name="edit-priority"]:checked');
+                   task.setPriority(taskPriorityInput.value);
+
+                   saveProject(currProj);
+                   loadProject(projName);
+                   editTaskPopup.close();
+                });
+
+                //close edit popup when button clicked
+                const closeEditPopup = document.querySelector('.close-edit-popup');
+                closeEditPopup.addEventListener('click', () => {
+                    editTaskPopup.close();
+                });
+            }
         });
 
         tasklist.appendChild(newTaskLi);
-
-        // const dateI = document.querySelector(`.input-due-date-${i}`);
-        // console.log(dateI);
-        // dateI.addEventListener('submit', () => {
-        //     console.log('submit');
-        // });
 
         i++;
     });
