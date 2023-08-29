@@ -1,7 +1,7 @@
 //import Storage from "./storage";
 import Project from "./project";
 import Task from "./task";
-import {getProjectList, saveProject} from "./storage";
+import {getProjectList, getProject, saveProject} from "./storage";
 import { initButtons, taskFormInit, projFormInit, loadProjectList, loadProject  } from "./UI";
 import { format, compareAsc } from "date-fns";
 
@@ -35,15 +35,14 @@ function deleteTask(taskname, currProj){
     }
 }
 
-// function editTask(task) {
-
-// }
 
 
 function addProject(projName) {
     let newProj = new Project(projName);
     saveProject(newProj);
 }
+
+
 
 
 function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
@@ -55,11 +54,13 @@ function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
     let newTask = new Task(taskName, taskDesc, formattedDate, taskPriority, checked);
     const currProjName = document.querySelector('.proj-name').textContent;
 
-    let projList = getProjectList();
-    const currProjObj = projList.find( item => { return item.getName() == currProjName; });
+    const currProjObj = getProject(currProjName);
 
     
     currProjObj.taskList.push(newTask);
+
+    //if date == today push to today project and save
+    //if date == this week push to this week and save
 
     
 

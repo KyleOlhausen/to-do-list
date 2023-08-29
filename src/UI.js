@@ -1,24 +1,25 @@
 import { addProject, addTask } from "./index";
-import { deleteProject, getProjectList, saveProject } from "./storage";
+import { deleteProject, getProjectList, getProject, saveProject } from "./storage";
 import { deleteTask } from "./index";
 
-
-function initButtons() {
+function initDefaultProjBtns() {
     const inbox = document.querySelector('.inbox');
     inbox.addEventListener('click', () => {
         loadProject('Inbox');
-    })
+    });
 
     const today = document.querySelector('.today');
     today.addEventListener('click', () => {
         loadProject('Today');
-    })
+    });
 
     const thisWeek = document.querySelector('.this-week');
     thisWeek.addEventListener('click', () => {
         loadProject('This Week');
-    })
+    });
+}
 
+function initNavBtns() {
     const navMenu = document.querySelector('nav');
     const hamburgerLeft = document.querySelector('.hamburger-left');
     const hamburgerRight = document.querySelector('.hamburger-right');
@@ -47,7 +48,11 @@ function initButtons() {
         main.classList.add('center');
         addTaskContainer.classList.remove('hidden');
     });
-    
+}
+
+function initButtons() {
+    initDefaultProjBtns();
+    initNavBtns();
 
     const addProjBtn = document.querySelector('.add-proj-btn');
     const projForm = document.querySelector('.proj-form');
@@ -152,8 +157,7 @@ function loadProjectList() {
 
 function loadProject(projName) {
     //get list of project objects from local storage and find current project
-    let projList = getProjectList();
-    let currProj = projList.find( item => { return item.getName() == projName; });
+    let currProj = getProject(projName);
     
     //change header to project title
     const projTitle = document.querySelector('.proj-name');

@@ -21,6 +21,11 @@ function getProjectList() {
     return projList;
 }
 
+function getProject(projName) {
+    const projObj = getProjectList().find( item => { return item.getName() == projName; });
+    return projObj;
+}
+
 function makeObjectFromStorage(key) {
     let newProj = new Project(JSON.parse(localStorage.getItem(key))['name']);
     let tempTaskList = [];
@@ -34,4 +39,4 @@ function makeObjectFromStorage(key) {
 }
 
 
-export {saveProject, getProjectList, deleteProject};
+export {saveProject, getProjectList, getProject, deleteProject};
