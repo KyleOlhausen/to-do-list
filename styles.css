@@ -1,5 +1,5 @@
 :root {
-    --background-color: rgba(40, 133, 255);
+    --background-color: linear-gradient(to bottom, rgb(32, 105, 199), rgb(67, 148, 255));
     --text-color: rgb(0, 0, 0);
     --nav-bar-color: rgb(243, 237, 237, .87);
     --task-list-color: rgb(243, 237, 237, .87);
@@ -16,7 +16,7 @@
 }
 
 body {
-    background-color: var(--background-color);
+    background: var(--background-color);
     display: grid;
     grid-template-columns: 1fr 3fr;
     height: 100%;
@@ -39,12 +39,26 @@ nav {
     transform: translate(0);
     transition: transform .3s ease;
     box-shadow: 0px 10px 20px rgba(20, 47, 98, 0.5);
+    display: grid;
+    grid-template-rows: 1fr 4fr 1fr 8fr 1fr;
 }
+
+/* .project-container {
+    position: absolute;
+    height: 100%;
+    width: 95%;
+    display: grid;
+    grid-template-rows: 1fr 4fr 1fr 8fr 1fr;
+    padding-bottom: 3vh;
+} */
 
 .project-container-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: solid 2px gray;
+    grid-row: 1/2;
 }
 
 .nav-title {
@@ -52,25 +66,47 @@ nav {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin-left: 40px;
 }
 
-.project-container {
-    position: absolute;
-    height: 100%;
-    width: 95%;
+.default-project-list {
+    grid-row: 2/3;
 }
+
+.custom-projects-header {
+    padding-left: 50px;
+    padding-bottom: 1rem;
+    margin-top: 10px;
+    border-bottom: solid 2px gray;
+    grid-row: 3/4;
+}
+
 
 .custom-projects {
     position: relative;
-    height: 90%;
+    height: 100%;
 }
 
 .custom-project-list {
-    position: relative;
+    position: absolute;
     overflow-y: auto;
     width: 10vh;
-    height: 30%;
+    height: 100%;
+    grid-row: 4/5;
+}
+
+.add-proj-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1vh;
+    width: 100%;
+    grid-row: 5/6;
+}
+
+.add-proj-btn {
+    padding: 15px;
+    width: 50%;
 }
 
 .default-project-list, .custom-project-list {
@@ -119,7 +155,7 @@ nav {
 }
 
 
-/* MAIN TASK CONTAINER */
+/* MAIN */
 main {
     grid-column: 2/3;
     display: grid;
@@ -137,18 +173,19 @@ main {
     color: white;
 }
 
-.custom-projects-header {
-    margin-left: 20px;
-    padding: 5px;
-}
 
+/* TASK LIST */
 .task-list-container {
     position: relative;
     background-color: var(--task-list-color);
     border-radius: 20px;
     padding: 10px;
     margin: 1rem;
+    margin-bottom: 1rem;
     box-shadow: 0px 10px 20px rgba(20, 47, 98, 0.5);
+    display: grid;
+    grid-template-rows: 10fr 1fr;
+    
 }
 
 .task-list {
@@ -157,10 +194,21 @@ main {
     flex-direction: column;
     padding: 20px;
     gap: 15px;
-    height: 80%;
+    height: 100%;
     width: 98%;
     overflow-y: auto;
     scrollbar-width: thin;
+    grid-row: 1/2;
+}
+
+.add-task-container {
+    position: absolute;
+    padding-top: 1rem;
+    width: 100%;
+    grid-template-columns: 1fr 4fr;
+    grid-row: 2/3;
+    display: flex;
+    justify-content: center;
 }
 
 .task {
@@ -189,13 +237,7 @@ main {
     height: 20px;
 }
 
-.add-task-container {
-    position: absolute;
-    bottom: 10px;
-    display: grid;
-    width: 95%;
-    grid-template-columns: 1fr 4fr;
-}
+
 
 .task-form {
     display: flex;
@@ -222,12 +264,7 @@ button{
     background-color: var(--button-color);
 }
 
-.add-proj-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .proj-form {
     display: flex;
@@ -272,11 +309,7 @@ button{
     min-height: 30%;
 }
 
-.add-proj-btn {
-    margin-top: 50px;
-    padding: 25px;
-    width: 50%;
-}
+
 
 .add-proj-btn:hover, .add-task-btn:hover {
     background-color: rgb(155, 198, 253, .5);
@@ -305,7 +338,7 @@ button{
 }
 
 
-
+/* NEED TO EDIT TO MATCH WITH NORMAL MODE */
 @media(max-width: 1100px){
     body {
 
@@ -317,7 +350,7 @@ button{
     nav {
         grid-column: 1/4;
         grid-row: 1/2;
-        height: 600px;
+        height: 500px;
     }
 
     .custom-project-list {
@@ -365,6 +398,9 @@ button{
     .add-proj-container {
         display: flex;
         justify-content: space-evenly;
+        align-items: center;
+        padding-top: 1vh;
+        width: 100%;
     }
     
     .proj-form {
@@ -383,7 +419,6 @@ button{
     }
 
     .add-proj-btn{
-        margin-top: 10px;
         padding: 15px;
     }
 
