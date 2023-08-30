@@ -60,7 +60,6 @@ function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
     currProjObj.taskList.push(newTask);
 
     saveProject(currProjObj);
-    loadProject(currProjName);
 }
 
 
