@@ -59,11 +59,6 @@ function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
     
     currProjObj.taskList.push(newTask);
 
-    //if date == today push to today project and save
-    //if date == this week push to this week and save
-
-    
-
     saveProject(currProjObj);
     loadProject(currProjName);
 }

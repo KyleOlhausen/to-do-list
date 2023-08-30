@@ -1,6 +1,7 @@
 import { addProject, addTask } from "./index";
 import { deleteProject, getProjectList, getProject, saveProject } from "./storage";
 import { deleteTask } from "./index";
+import { format, isSameWeek, parseISO } from "date-fns";
 
 //add eventListeners for default projects
 function initDefaultProjBtns() {
@@ -150,42 +151,107 @@ function loadProjectList() {
     });
 }
 
+function createTaskDom(task, currProj, i) {
+    //create li task container
+    const newTaskLi = document.createElement('li');
+    newTaskLi.classList.add('task');
 
-//Load given project title and tasks into DOM
-function loadProject(projName) {
-    const currProj = getProject(projName);
-    
-    //change header to project title
-    const projTitle = document.querySelector('.proj-name');
-    projTitle.textContent = projName;
+    //create left and right parts of task element
+    const taskleft = createTaskLeftDom(task, i);
+    const taskright = createTaskRightDom(task);
+    newTaskLi.appendChild(taskleft);
+    newTaskLi.appendChild(taskright);
 
+    //check what part of the taskLi was clicked and execute
+    newTaskLi.addEventListener('click', e => executeTaskClick(e.target, task, currProj));
+
+    return newTaskLi;
+}
+
+//loop current project tasklist and create each task
+function createAllTasksInProject(currProj){
+    console.log('create tasks')
     //clear tasklist
-    const tasklist = document.querySelector('.task-list');
-    tasklist.innerHTML = ``;
+    const tasklistDom = document.querySelector('.task-list');
+    tasklistDom.innerHTML = ``;
 
-    //loop current project tasklist and create each task
     let i = 0;
     currProj.taskList.forEach(task => {
-        //create li task container
-        const newTaskLi = document.createElement('li');
-        newTaskLi.classList.add('task');
-
-        //create left and right parts of task element
-        const taskleft = createTaskLeft(task, i);
-        const taskright = createTaskRight(task);
-        newTaskLi.appendChild(taskleft);
-        newTaskLi.appendChild(taskright);
-
-        //check what part of the taskLi was clicked
-        newTaskLi.addEventListener('click', e => executeTaskClick(e.target, task, currProj));
-        
-        tasklist.appendChild(newTaskLi);
+        const newTaskLi = createTaskDom(task, currProj, i);
+        tasklistDom.appendChild(newTaskLi);
         i++;
     });
 }
 
+//Load given project title and tasks into DOM
+function loadProject(projName) {
+    //change header to project title
+    const projTitle = document.querySelector('.proj-name');
+    projTitle.textContent = projName;
+
+    const currProj = getProject(projName);
+
+    console.log(projName);
+    console.log(projName === "Today");
+
+    if (projName !== "Today" && projName !== "This Week") {    
+        createAllTasksInProject(currProj);
+    }
+    else if (projName === "Today") {
+
+        console.log('today start');
+        const newDate = new Date();
+        const todayDate = format(newDate, 'yyyy-MM-dd');
+        
+        //build task list for default project "Today"
+        //compare date from every task in every project
+        getProjectList().forEach( proj => {
+            proj.taskList.forEach(task => {
+
+                //if date of task is today, add to current project
+                console.log(task.getDueDate());
+                console.log(todayDate);
+                console.log(task.getDueDate() == todayDate);
+                if(task.getDueDate() == todayDate) {
+                    console.log('today true');
+                    addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
+                }
+            });
+        });
+
+        createAllTasksInProject(currProj);
+    }
+    else if (projName === "This Week") {
+        console.log('this week start');
+        const newDate = new Date();
+
+        //build task list for default project "This Week"
+        //compare date from every task in every project
+        
+        getProjectList().forEach( proj => {
+            proj.taskList.forEach(task => {
+                const taskDate = task.getDueDate();
+                const taskDateObj = parseISO(taskDate);
+
+                console.log(taskDateObj);
+                //if date of task is this week, add to current project
+                console.log(isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 }))
+                if(isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 })) {
+                    console.log('this week true');
+                    addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
+                }
+            })
+        })
+
+        createAllTasksInProject(currProj);
+    }
+
+
+
+}
+
 //create DOM for left half of task
-function createTaskLeft(task, i) {
+function createTaskLeftDom(task, i) {
     const taskleft = document.createElement('div')
     taskleft.classList.add('task-left');
 
@@ -214,7 +280,7 @@ function createTaskLeft(task, i) {
 }
 
 //create DOM for right half of task
-function createTaskRight(task){
+function createTaskRightDom(task){
     const taskright = document.createElement('div');
     taskright.classList.add('task-right');
 
@@ -257,16 +323,16 @@ function executeTaskClick(target, task, currProj) {
     }
     else if (target.classList[0] === 'task-details') {
         //if task details button clicked
-        createDetailsPopup(task)
+        createDetailsPopupDom(task)
     }
     else if (target.classList[0] === 'task-edit') {
         //if task edit button clicked
-        createTaskEditPopup(task, currProj);
+        createTaskEditPopupDom(task, currProj);
     }
 }
 
 //create DOM for task details popup
-function createDetailsPopup(task) {
+function createDetailsPopupDom(task) {
     const taskDetailsPopup = document.querySelector('.task-details-popup');
     taskDetailsPopup.showModal();
 
@@ -288,7 +354,7 @@ function createDetailsPopup(task) {
 }
 
 //create DOM for task edit popup
-function createTaskEditPopup(task, currProj) {
+function createTaskEditPopupDom(task, currProj) {
     const editTaskPopup = document.querySelector('.edit-task-popup');
     editTaskPopup.showModal();
 
