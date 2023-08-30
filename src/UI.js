@@ -326,11 +326,21 @@ function createTaskRightDom(task){
     taskDetails.classList.add('task-details');
 
     //create task date
+    const taskDateContainer = document.createElement('div')
+    taskDateContainer.classList.add('task-date-container');
+
     const taskDate = document.createElement('div');
     taskDate.classList.add('task-date');
-    taskDate.textContent = task.getDueDate();
 
-    taskright.appendChild(taskDate);
+    const dateTokens = task.getDueDate().split('-');//yyyy-mm-dd
+    const dateRearranged = dateTokens[1] + '-' + dateTokens[2] + '-' + dateTokens[0]
+    const parsedDate = new Date(dateRearranged);
+    const formattedDate = format(parsedDate, 'MMM d yyyy');
+    taskDate.textContent = formattedDate;
+
+    taskDateContainer.appendChild(taskDate);
+
+    taskright.appendChild(taskDateContainer);
     taskright.appendChild(taskDetails);
     taskright.appendChild(taskEdit);
     taskright.appendChild(taskDelete);
