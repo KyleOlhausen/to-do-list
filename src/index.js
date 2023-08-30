@@ -46,9 +46,11 @@ function addProject(projName) {
 
 
 function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {
-    console.log('add task');
+    const dateTokens = taskDate.split('-');//yyyy-mm-dd
+    const dateRearranged = dateTokens[1] + '-' + dateTokens[2] + '-' + dateTokens[0]
 
-    const parsedDate = new Date(taskDate);
+    const parsedDate = new Date(dateRearranged);
+
     const formattedDate = format(parsedDate, 'yyyy-MM-dd');
 
     let newTask = new Task(taskName, taskDesc, formattedDate, taskPriority, checked);

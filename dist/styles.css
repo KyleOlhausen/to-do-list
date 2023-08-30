@@ -27,6 +27,10 @@ ul {
     list-style-type: none;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 
 
 /* NAV */
@@ -212,26 +216,95 @@ main {
 }
 
 .task {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     justify-content: space-between;
     background-color: var(--task-color);
-    padding: 15px;
+    /* padding: 15px; */
     border-radius: 6px;
     border: black solid 1px;
     font-size: large;
 }
 
 .task-left {
+    display: grid;
+    grid-template-columns: 15px 57px 10fr;
+    grid-column: 1/2;
+}
+
+.task-priority-low {
+    background-color: green;
+}
+
+.task-priority-medium {
+    background-color: yellow;
+}
+
+.task-priority-high {
+    background-color: red;
+}
+
+.task-checkbox {
+    min-width: 57px;
+}
+
+.task-name {
     display: flex;
-    gap: 2vw;
-    margin-left: 1vw;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1vw;
 }
 
 .task-right {
-    display: flex;
-    gap: 5vw;
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column: 2/3;
 }
+
+.task-date {
+    grid-column: 1/2;
+}
+
+.task-details {
+    grid-column: 2/3;
+    background-color: rgb(144, 144, 149);
+    border: none;
+}
+
+.task-edit {
+    grid-column: 3/4;
+    background-color: rgb(165, 165, 170);
+    border: none;
+}
+
+.task-close {
+    grid-column: 4/5;
+    background-color: rgb(177, 177, 184);
+    border: none;
+}
+
+.task-details:hover {
+    grid-column: 2/3;
+    background-color: rgb(127, 127, 173);
+    border: none;
+}
+
+.task-edit:hover {
+    grid-column: 3/4;
+    background-color: rgb(134, 134, 180);
+    border: none;
+}
+
+.task-close:hover {
+    grid-column: 4/5;
+    background-color: rgb(159, 159, 215);
+    border: none;
+}
+
+.task button {
+    padding: 15px;
+}
+
 
 .task svg {
     height: 20px;
@@ -245,24 +318,21 @@ main {
     gap: 10px;   
 }
 
-svg {
+.header svg, .project-container-header svg {
     height: 40px;
 }
 
-svg:hover {
-    cursor: pointer;
-}
 
 .hidden {
     opacity: 0;
     pointer-events: none;
 }
 
-button{
+/* button{
     padding: 10px;
     border-radius: 30px;
     background-color: var(--button-color);
-}
+} */
 
 
 
@@ -421,5 +491,6 @@ button{
     .add-proj-btn{
         padding: 15px;
     }
+
 
 }

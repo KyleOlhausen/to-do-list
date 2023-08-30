@@ -169,11 +169,14 @@ function createTaskDom(task, currProj, i) {
 }
 
 //loop current project tasklist and create each task
-function createAllTasksInProject(currProj){
-    console.log('create tasks')
+function createAllTasksInProject(){
     //clear tasklist
     const tasklistDom = document.querySelector('.task-list');
     tasklistDom.innerHTML = ``;
+
+    const name = document.querySelector('.proj-name').textContent;
+
+    const currProj = getProject(name);
 
     let i = 0;
     currProj.taskList.forEach(task => {
@@ -183,82 +186,104 @@ function createAllTasksInProject(currProj){
     });
 }
 
+function isTaskInProject(task, projectName) {
+    const project = getProject(projectName);
+
+    for (const projTask of project.taskList) {
+        if (
+            projTask.getName() === task.getName() &&
+            projTask.getDescription() === task.getDescription() &&
+            projTask.getDueDate() === task.getDueDate()
+        ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function createTodayTasklist() {
+    //clear task list
+    const currProj = getProject('Today');
+    currProj.taskList = [];
+    saveProject(currProj);
+
+    const newDate = new Date();
+    const todayDate = format(newDate, 'yyyy-MM-dd');
+
+    //build tasklist from other projects
+    getProjectList().forEach( proj => {
+        if (proj.getName() !== "Today" && proj.getName() !== "This Week"){
+            proj.taskList.forEach(task => {
+                if(task.getDueDate() == todayDate ) {
+                    if (!isTaskInProject(task, "Today")){
+                        addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
+                    }
+                }
+            });
+        }
+    });
+}
+
+function createThisWeekTasklist() {
+    //clear task list
+    const currProj = getProject('This Week');
+    currProj.taskList = [];
+    saveProject(currProj);
+
+    const newDate = new Date();
+
+    getProjectList().forEach( proj => {
+        if (proj.getName() !== "Today" && proj.getName() !== "This Week"){
+            proj.taskList.forEach(task => {
+                const taskDate = task.getDueDate();
+                const taskDateObj = parseISO(taskDate);
+
+                if(isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 })) {
+                    if (!isTaskInProject(task, "This Week")){
+                        addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
+                    }
+                }
+            });
+        }
+    });
+}
+
+
 //Load given project title and tasks into DOM
 function loadProject(projName) {
     //change header to project title
     const projTitle = document.querySelector('.proj-name');
     projTitle.textContent = projName;
 
-    const currProj = getProject(projName);
-
-    console.log(projName);
-    console.log(projName === "Today");
-
     if (projName !== "Today" && projName !== "This Week") {    
-        createAllTasksInProject(currProj);
+        createAllTasksInProject();
     }
     else if (projName === "Today") {
-
-        console.log('today start');
-        const newDate = new Date();
-        const todayDate = format(newDate, 'yyyy-MM-dd');
-        
-        //build task list for default project "Today"
-        //compare date from every task in every project
-        getProjectList().forEach( proj => {
-            proj.taskList.forEach(task => {
-
-                //if date of task is today, add to current project
-                console.log(task.getDueDate());
-                console.log(todayDate);
-                console.log(task.getDueDate() == todayDate);
-                if(task.getDueDate() == todayDate) {
-                    console.log('today true');
-                    addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
-                }
-            });
-        });
-
-        createAllTasksInProject(currProj);
+        createTodayTasklist();
+        createAllTasksInProject();
     }
     else if (projName === "This Week") {
-        console.log('this week start');
-        const newDate = new Date();
-
-        //build task list for default project "This Week"
-        //compare date from every task in every project
-        
-        getProjectList().forEach( proj => {
-            proj.taskList.forEach(task => {
-                const taskDate = task.getDueDate();
-                const taskDateObj = parseISO(taskDate);
-
-                console.log(taskDateObj);
-                //if date of task is this week, add to current project
-                console.log(isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 }))
-                if(isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 })) {
-                    console.log('this week true');
-                    addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
-                }
-            })
-        })
-
-        createAllTasksInProject(currProj);
+        createThisWeekTasklist();
+        createAllTasksInProject();
     }
-
-
-
 }
+
 
 //create DOM for left half of task
 function createTaskLeftDom(task, i) {
     const taskleft = document.createElement('div')
     taskleft.classList.add('task-left');
 
+    //add priority bar
+    const priorityBar = document.createElement('div');
+    const taskPriorityLevel = task.getPriority();
+    priorityBar.classList.add(`task-priority-${taskPriorityLevel}`);
+
     //add checkbox
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    checkbox.setAttribute('id', `task-${i}`)
+    checkbox.setAttribute('id', `task-${i}`);
+    checkbox.classList.add('task-checkbox');
     checkbox.checked = task.getChecked();
 
     //add checkbox label
@@ -273,6 +298,7 @@ function createTaskLeftDom(task, i) {
         saveProject(currProj);
     });
 
+    taskleft.appendChild(priorityBar);
     taskleft.appendChild(checkbox);
     taskleft.appendChild(checkboxLabel);
 
@@ -285,18 +311,18 @@ function createTaskRightDom(task){
     taskright.classList.add('task-right');
 
     //create edit task button
-    const taskEdit = document.createElement('div');
+    const taskEdit = document.createElement('button');
     taskEdit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="task-edit" viewBox="0 0 24 24"><path d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z" /></svg>`
     taskEdit.classList.add('task-edit');
 
     //create delete task button
     const taskDelete = document.createElement('button');
-    taskDelete.textContent = "X";
+    taskDelete.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="task-close" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>`
     taskDelete.classList.add('task-close');
 
     //create task details button
     const taskDetails = document.createElement('button');
-    taskDetails.textContent = "Details"
+    taskDetails.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="task-details" viewBox="0 0 24 24"><path d="M16,15H9V13H16V15M19,11H9V9H19V11M19,7H9V5H19V7M3,5V21H19V23H3A2,2 0 0,1 1,21V5H3M21,1A2,2 0 0,1 23,3V17C23,18.11 22.11,19 21,19H7A2,2 0 0,1 5,17V3C5,1.89 5.89,1 7,1H21M7,3V17H21V3H7Z" /></svg>`
     taskDetails.classList.add('task-details');
 
     //create task date
@@ -304,8 +330,8 @@ function createTaskRightDom(task){
     taskDate.classList.add('task-date');
     taskDate.textContent = task.getDueDate();
 
+    taskright.appendChild(taskDate);
     taskright.appendChild(taskDetails);
-    //taskright.appendChild(taskDate);
     taskright.appendChild(taskEdit);
     taskright.appendChild(taskDelete);
 
