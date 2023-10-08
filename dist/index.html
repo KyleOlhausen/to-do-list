@@ -36,15 +36,17 @@
     </nav>
 
     <main class="center">
-        <div class="header">
-            <svg class="hamburger-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-            <h1 class="proj-name"></h1>
-            <svg class="hamburger-right hidden-menu-btn" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-        </div>
-        <div class="task-list-container">
-            <ul class="task-list"></ul>
-            <div class="add-task-container">
-                <button class="add-task-btn">Add Task</button>
+        <div class="content-container">
+            <div class="header">
+                <svg class="hamburger-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                <h1 class="proj-name"></h1>
+                <svg class="hamburger-right hidden-menu-btn" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            </div>
+            <div class="task-list-container">
+                <ul class="task-list"></ul>
+                <div class="add-task-container">
+                    <button class="add-task-btn">Add Task</button>
+                </div>
             </div>
         </div>
     </main>
@@ -121,7 +123,7 @@
 <dialog class="add-project-popup">
     <button class="close-project-popup">X</button>
     <form class="proj-form" method="dialog">
-        <input type="text" placeholder="Enter project name" id="projectNameInput">
+        <input type="text" placeholder="Enter project name" id="projectNameInput" maxlength="12">
         <input type="submit" value="+" class="proj-submit-btn">
     </form>
 </dialog>

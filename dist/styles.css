@@ -18,6 +18,7 @@
 body {
     background: var(--background-color);
     display: grid;
+    height: 100vh;
     grid-template-columns: 1fr 3fr;
     overflow: hidden;
 }
@@ -34,17 +35,24 @@ button:hover {
 
 /* NAV */
 nav {
+    position: fixed;
     background-color: var(--nav-bar-color);
     grid-column: 1/2;
     border-radius: 20px;
     padding: 10px;
-    margin: 1rem;
     transform: translate(0);
     transition: transform .3s ease;
-    box-shadow: 0px 10px 20px rgba(20, 47, 98, 0.5);
+    box-shadow: 0px 10px 20px rgba(2, 2, 2, 0.5);
     display: grid;
-    grid-template-rows: 1fr 4fr 1fr 8fr 1fr;
+    grid-template-rows: auto 1fr auto 1fr auto;
+    bottom: 4vh;
+    top: 4vh;
+    margin-left: 4vw;
+    min-height: 300px;
+    max-width: 245px;
 }
+
+/* IF THE WHOLE VH GOES BELOW 300PX JUST MAKE IT SCROLLABLE */
 
 /* .project-container {
     position: absolute;
@@ -71,8 +79,17 @@ nav {
     gap: 1rem;
 }
 
-.default-project-list {
+
+.default-projects, .custom-projects {
+    position: relative;
+    min-height: 40px;
+    overflow-y: auto;
+}
+
+
+.default-projects {
     grid-row: 2/3;
+    max-height: 180px;
 }
 
 .custom-projects-header {
@@ -83,28 +100,20 @@ nav {
     grid-row: 3/4;
 }
 
-
 .custom-projects {
-    position: relative;
-    height: 100%;
-}
-
-.custom-project-list {
-    position: absolute;
-    overflow-y: auto;
-    width: 10vh;
-    height: 100%;
     grid-row: 4/5;
 }
 
 .add-proj-container {
-    position: absolute;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 1vh;
     width: 100%;
+    min-height: 40px;
     grid-row: 5/6;
+    /* bottom: 1vh */
 }
 
 .add-proj-btn {
@@ -122,7 +131,6 @@ nav {
 
 .project {
     padding: 15px;
-    padding-left: 5vw;
     font-size: 17px;
     width: 100%;
     display: flex;
@@ -160,12 +168,22 @@ nav {
 
 /* MAIN */
 main {
+    position: relative;
     grid-column: 2/3;
-    display: grid;
-    grid-template-rows: 1fr 5fr;
-    height: 100%;
     transform: translate(0);
     transition: transform .3s ease;
+    
+}
+
+.content-container {
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    position: fixed;
+    top: 0;
+    bottom: 4vh;
+    right: 4vw;
+    left: 2vw;
+
 }
 
 .header {
@@ -183,12 +201,9 @@ main {
     background-color: var(--task-list-color);
     border-radius: 20px;
     padding: 10px;
-    margin: 1rem;
-    margin-bottom: 1rem;
     box-shadow: 0px 10px 20px rgba(20, 47, 98, 0.5);
     display: grid;
     grid-template-rows: 10fr 1fr;
-    
 }
 
 .task-list {
@@ -197,18 +212,17 @@ main {
     flex-direction: column;
     padding: 20px;
     gap: 15px;
-    height: 100%;
-    width: 98%;
+    max-height: 100%;
+    width: 100%;
     overflow-y: auto;
     scrollbar-width: thin;
     grid-row: 1/2;
 }
 
 .add-task-container {
-    position: absolute;
+    position: relative;
     padding-top: 1rem;
     width: 100%;
-    grid-template-columns: 1fr 4fr;
     grid-row: 2/3;
     display: flex;
     justify-content: center;
@@ -219,7 +233,6 @@ main {
     grid-template-columns: 1fr 1fr;
     justify-content: space-between;
     background-color: var(--task-color);
-    /* padding: 15px; */
     border-radius: 6px;
     border: black solid 1px;
     font-size: large;
@@ -412,27 +425,91 @@ main {
 
 /* NEED TO EDIT TO MATCH WITH NORMAL MODE */
 @media(max-width: 1100px){
-    body {
 
+    html {
+        width: 100vw;
+    }
+
+    body {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
+        /* height: 100vh; */
     }
+
+
+
+    /* body {
+        background: var(--background-color);
+        display: grid;
+        height: 100vh;
+        grid-template-columns: 1fr 3fr;
+        overflow: hidden;
+    } */
+
 
     nav {
         grid-column: 1/4;
-        grid-row: 1/2;
-        height: 500px;
+        grid-row: 1/3;
+        height: 90%;
+        max-width: unset;
+        margin: 1vh 3vw 2vh 3vw;
+        position: unset;
     }
 
-    .custom-project-list {
+    /* nav {
+        position: fixed;
+        background-color: var(--nav-bar-color);
+        grid-column: 1/2;
+        border-radius: 20px;
+        padding: 10px;
+        transform: translate(0);
+        transition: transform .3s ease;
+        box-shadow: 0px 10px 20px rgba(2, 2, 2, 0.5);
+        display: grid;
+        grid-template-rows: auto 1fr auto 1fr auto;
+        bottom: 4vh;
+        top: 4vh;
+        margin-left: 4vw;
+        min-height: 300px;
+        max-width: 245px;
+    } */
+
+
+
+
+
+
+    .collapse {
+        transform: translateY(-130%);
+    }
+    
+    .center {
+        transform: translateY(0);
+        grid-column: 1/4;
+        grid-row: 1/4;
+    }
+
+
+    main {
+        grid-column: 1/4;
+        grid-row: 3/4;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* .custom-project-list {
         overflow-y: auto;
         max-height: 250px;
     }
 
     main {
         grid-column: 1/4;
-        grid-row: 2/4;
+        grid-row: 3/4;
     }
 
     .collapse {
@@ -492,7 +569,7 @@ main {
 
     .add-proj-btn{
         padding: 15px;
-    }
+    } */
 
 
 }
