@@ -216,6 +216,8 @@ main {
     justify-content: center;
 }
 
+
+/* TASK */
 .task {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -316,6 +318,8 @@ main {
     height: 20px;
 }
 
+
+/* FORMS */
 .task-form {
     display: flex;
     flex-wrap: wrap;

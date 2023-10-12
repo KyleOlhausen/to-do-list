@@ -3,7 +3,7 @@ import Project from "./project";
 import Task from "./task";
 import {getProject, saveProject} from "./storage";
 import { initNavBtns, initDefaultProjBtns, taskFormInit, projFormInit, loadProjectList, loadProject  } from "./UI";
-import { format, compareAsc } from "date-fns";
+import { format } from "date-fns";
 
 
 
