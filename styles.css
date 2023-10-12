@@ -52,17 +52,6 @@ nav {
     max-width: 245px;
 }
 
-/* IF THE WHOLE VH GOES BELOW 300PX JUST MAKE IT SCROLLABLE */
-
-/* .project-container {
-    position: absolute;
-    height: 100%;
-    width: 95%;
-    display: grid;
-    grid-template-rows: 1fr 4fr 1fr 8fr 1fr;
-    padding-bottom: 3vh;
-} */
-
 .project-container-header {
     display: flex;
     justify-content: space-between;
@@ -113,7 +102,6 @@ nav {
     width: 100%;
     min-height: 40px;
     grid-row: 5/6;
-    /* bottom: 1vh */
 }
 
 .add-proj-btn {
@@ -148,7 +136,7 @@ nav {
 }
 
 .collapse {
-    transform: translateX(-130%);
+    transform: translateX(-200%);
 }
 
 .center {
@@ -210,7 +198,7 @@ main {
     position: absolute;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 1vw;
     gap: 15px;
     max-height: 100%;
     width: 100%;
@@ -242,6 +230,10 @@ main {
     display: grid;
     grid-template-columns: 15px 57px 10fr;
     grid-column: 1/2;
+}
+
+.task svg {
+    pointer-events: none;
 }
 
 .task-priority-low {
@@ -320,12 +312,9 @@ main {
     padding: 15px;
 }
 
-
 .task svg {
     height: 20px;
 }
-
-
 
 .task-form {
     display: flex;
@@ -337,19 +326,10 @@ main {
     height: 40px;
 }
 
-
 .hidden {
     opacity: 0;
     pointer-events: none;
 }
-
-/* button{
-    padding: 10px;
-    border-radius: 30px;
-    background-color: var(--button-color);
-} */
-
-
 
 .proj-form {
     display: flex;
@@ -394,16 +374,23 @@ main {
     min-height: 30%;
 }
 
-
-
 .add-proj-btn:hover, .add-task-btn:hover {
     background-color: rgb(155, 198, 253, .5);
     cursor: pointer;
 }
 
-.proj-cancel-btn:hover, .task-cancel-btn:hover {
+.nav-close:hover, .close-project-popup:hover, .close-task-popup:hover, .close-edit-popup:hover, .close-details-popup:hover {
     background-color: rgba(253, 155, 155, 0.5);
     cursor: pointer;
+}
+
+.nav-close, .close-project-popup, .close-task-popup, .close-edit-popup, .close-details-popup {
+    padding: 10px;
+    border-radius: 45%;
+    border: none;
+    font-size: 2rem;
+    font-weight: bold;
+    background: none;
 }
 
 .proj-submit-btn:hover, .task-submit-btn:hover {
@@ -413,17 +400,29 @@ main {
 
 
 /* POPUPS */
-.add-task-popup {
-    border: 5px solid;
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+dialog {
+    border: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
+    width: 400px;
+    max-width: 85vw;
+    box-shadow: 0 0 1em rgb(0 0 0 / .3) ;
+}
+
+dialog::backdrop {
+    background: rgb(0 0 0 / .4);
 }
 
 
-/* NEED TO EDIT TO MATCH WITH NORMAL MODE */
+
 @media(max-width: 1100px){
 
     html {
@@ -434,19 +433,7 @@ main {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
-        /* height: 100vh; */
     }
-
-
-
-    /* body {
-        background: var(--background-color);
-        display: grid;
-        height: 100vh;
-        grid-template-columns: 1fr 3fr;
-        overflow: hidden;
-    } */
-
 
     nav {
         grid-column: 1/4;
@@ -457,29 +444,6 @@ main {
         position: unset;
     }
 
-    /* nav {
-        position: fixed;
-        background-color: var(--nav-bar-color);
-        grid-column: 1/2;
-        border-radius: 20px;
-        padding: 10px;
-        transform: translate(0);
-        transition: transform .3s ease;
-        box-shadow: 0px 10px 20px rgba(2, 2, 2, 0.5);
-        display: grid;
-        grid-template-rows: auto 1fr auto 1fr auto;
-        bottom: 4vh;
-        top: 4vh;
-        margin-left: 4vw;
-        min-height: 300px;
-        max-width: 245px;
-    } */
-
-
-
-
-
-
     .collapse {
         transform: translateY(-130%);
     }
@@ -490,36 +454,9 @@ main {
         grid-row: 1/4;
     }
 
-
     main {
         grid-column: 1/4;
         grid-row: 3/4;
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    /* .custom-project-list {
-        overflow-y: auto;
-        max-height: 250px;
-    }
-
-    main {
-        grid-column: 1/4;
-        grid-row: 3/4;
-    }
-
-    .collapse {
-        transform: translateY(-130%);
-    }
-    
-    .center {
-        transform: translateY(0);
-        grid-column: 1/4;
-        grid-row: 1/4;
     }
 
     .header {
@@ -531,45 +468,17 @@ main {
     .hamburger-left {
         opacity: 0;
         pointer-events: none;
+        max-width: 0px;
     }
 
     .hamburger-right {
         opacity: 1;
         pointer-events: all;
-        margin-right: 50px;
+        min-width: 40px;
     }
 
     .hidden {
         opacity: 0;
         pointer-events: none;
     }
-
-    .add-proj-container {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        padding-top: 1vh;
-        width: 100%;
-    }
-    
-    .proj-form {
-        display: flex;
-        justify-content: space-evenly;
-    }
-
-    .proj-submit-btn {
-        padding: 20px;
-        border-radius: 30px;
-    }
-    
-    .proj-cancel-btn {
-        padding: 10px;
-        border-radius: 30px;
-    }
-
-    .add-proj-btn{
-        padding: 15px;
-    } */
-
-
 }

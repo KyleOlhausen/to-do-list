@@ -9,13 +9,12 @@
 </head>
 <body>
     <nav class="collapse">
-        <!-- <div class="project-container"> -->
         <div class="project-container-header">
             <div class="nav-title">
                 <svg fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M459.897 902.842v689.845h1034.767v-574.87h230.064v804.819H229.948V902.842h229.949Zm1299.37-570.916L1920 496.455l-845.06 825.86-408.044-398.846 160.85-164.413 247.194 241.675 684.326-668.805ZM459.896 98v230.063H689.96v229.949H459.897v229.833H229.948V558.012H0V328.063h229.948V98h229.949Zm919.816 229.983V557.93h-574.87V327.983h574.87Z" fill-rule="evenodd"></path> </g></svg>
                 <h1>To Do Lists</h1>
             </div>
-            <svg class="nav-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
+            <button class="nav-close">&times;</button>
         </div>
         <div class="default-projects">
             <ul class="default-project-list">
@@ -32,7 +31,6 @@
         <div class="add-proj-container">
             <button class="add-proj-btn">Add Project</button>
         </div>
-        <!-- </div> -->
     </nav>
 
     <main class="center">
@@ -40,7 +38,7 @@
             <div class="header">
                 <svg class="hamburger-left" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                 <h1 class="proj-name"></h1>
-                <svg class="hamburger-right hidden-menu-btn" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                <svg class="hamburger-right hidden" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             </div>
             <div class="task-list-container">
                 <ul class="task-list"></ul>
@@ -53,7 +51,11 @@
 </body>
 
 <dialog class="add-task-popup">
-    <button class="close-task-popup">X</button>
+    <div class="popup-header">
+        <h2>Add Task</h2>
+        <button class="close-task-popup">&times;</button>
+    </div>
+    
     <form class="task-form" method="dialog">
         <input type="text" placeholder="Enter task name" id="taskNameInput">
         <input type="textarea" rows="4" cols="50" placeholder="Enter task description" id="taskDescInput">
@@ -78,12 +80,15 @@
         </fieldset>
 
         <input type="submit" value="Submit" class="task-submit-btn">
-        <!-- <button type="submit" class="task-submit-btn"></button> -->
     </form>
 </dialog>
 
 <dialog class="edit-task-popup">
-    <button class="close-edit-popup">X</button>
+    <div class="popup-header">
+        <h2>Edit Task</h2>
+        <button class="close-edit-popup">&times;</button>
+    </div>
+
     <form class="edit-task-form" method="dialog">
         <input type="text" placeholder="Enter task name" id="editTaskNameInput">
         <input type="textarea" rows="4" cols="50" placeholder="Enter task description" id="editTaskDescInput">
@@ -108,12 +113,15 @@
         </fieldset>
 
         <input type="submit" value="Submit" class="edit-task-submit-btn">
-        <!-- <button type="submit" class="task-submit-btn"></button> -->
     </form>
 </dialog>
 
 <dialog class="task-details-popup">
-    <button class="close-details-popup">X</button>
+    <div class="popup-header">
+        <h2>Task Details</h2>
+        <button class="close-details-popup">&times;</button>
+    </div>
+    
     <p class="task-popup-title"></p>
     <p class="task-popup-description"></p>
     <p class="task-popup-date"></p>
@@ -121,10 +129,14 @@
 </dialog>
 
 <dialog class="add-project-popup">
-    <button class="close-project-popup">X</button>
+    <div class="popup-header">
+        <h2>Add Project</h2>
+        <button class="close-project-popup">&times;</button>
+    </div>
+    
     <form class="proj-form" method="dialog">
         <input type="text" placeholder="Enter project name" id="projectNameInput" maxlength="12">
-        <input type="submit" value="+" class="proj-submit-btn">
+        <input type="submit" value="Submit" class="proj-submit-btn">
     </form>
 </dialog>
 
