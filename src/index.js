@@ -36,13 +36,10 @@ function deleteTask(taskname, currProj){
 }
 
 
-
 function addProject(projName) {
     let newProj = new Project(projName);
     saveProject(newProj);
 }
-
-
 
 
 function addTask(taskName, taskDesc, taskDate, taskPriority, checked) {

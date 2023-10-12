@@ -27,8 +27,8 @@ function initNavBtns() {
     const hamburgerLeft = document.querySelector('.hamburger-left');
     const hamburgerRight = document.querySelector('.hamburger-right');
     const main = document.querySelector('main');
-    const addTaskContainer = document.querySelector('.add-task-container');
-    
+    const taskListContainer = document.querySelector('.task-list-container');
+
     hamburgerLeft.addEventListener('click', () => {
         navMenu.classList.remove('collapse');
         hamburgerLeft.classList.add('hidden');
@@ -41,7 +41,7 @@ function initNavBtns() {
         hamburgerLeft.classList.add('hidden');
         hamburgerRight.classList.add('hidden');
         main.classList.remove('center');
-        addTaskContainer.classList.add('hidden');
+        taskListContainer.classList.add('hidden');
     });
     
     const navClose = document.querySelector('.nav-close');
@@ -50,7 +50,7 @@ function initNavBtns() {
         hamburgerLeft.classList.remove('hidden');
         hamburgerRight.classList.remove('hidden');
         main.classList.add('center');
-        addTaskContainer.classList.remove('hidden');
+        taskListContainer.classList.remove('hidden');
     });
 }
 
@@ -157,7 +157,7 @@ function createTaskDom(task, currProj, i) {
     newTaskLi.classList.add('task');
 
     //create left and right parts of task element
-    const taskleft = createTaskLeftDom(task, i);
+    const taskleft = createTaskLeftDom(task, i, currProj);
     const taskright = createTaskRightDom(task);
     newTaskLi.appendChild(taskleft);
     newTaskLi.appendChild(taskright);
@@ -204,9 +204,7 @@ function isTaskInProject(task, projectName) {
 function createTodayTasklist() {
     //clear task list
     const currProj = getProject('Today');
-    currProj.taskList = [];
-    saveProject(currProj);
-
+    
     const newDate = new Date();
     const todayDate = format(newDate, 'yyyy-MM-dd');
 
@@ -214,8 +212,13 @@ function createTodayTasklist() {
     getProjectList().forEach( proj => {
         if (proj.getName() !== "Today" && proj.getName() !== "This Week"){
             proj.taskList.forEach(task => {
-                if(task.getDueDate() == todayDate ) {
-                    if (!isTaskInProject(task, "Today")){
+                if (isTaskInProject(task, "Today")){
+                    if(task.getDueDate() != todayDate ){
+                        deleteTask(task, currProj);
+                        saveProject(currProj);
+                    }
+                } else {
+                    if(task.getDueDate() == todayDate ) {
                         addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
                     }
                 }
@@ -227,8 +230,6 @@ function createTodayTasklist() {
 function createThisWeekTasklist() {
     //clear task list
     const currProj = getProject('This Week');
-    currProj.taskList = [];
-    saveProject(currProj);
 
     const newDate = new Date();
 
@@ -237,15 +238,20 @@ function createThisWeekTasklist() {
             proj.taskList.forEach(task => {
                 const taskDate = task.getDueDate();
                 const taskDateObj = parseISO(taskDate);
-
-                if(isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 })) {
-                    if (!isTaskInProject(task, "This Week")){
+                if (isTaskInProject(task, "This Week")){
+                    if(!isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 })){
+                        deleteTask(task, currProj);
+                        saveProject(currProj);
+                    }
+                } else {
+                    if(isSameWeek(taskDateObj, newDate, { weekStartsOn: 1 })) {
                         addTask(task.getName(), task.getDescription(), task.getDueDate(), task.getPriority(), task.getChecked());
                     }
                 }
             });
         }
     });
+    
 }
 
 
@@ -270,7 +276,7 @@ function loadProject(projName) {
 
 
 //create DOM for left half of task
-function createTaskLeftDom(task, i) {
+function createTaskLeftDom(task, i, currProj) {
     const taskleft = document.createElement('div')
     taskleft.classList.add('task-left');
 
@@ -348,11 +354,34 @@ function createTaskRightDom(task){
     return taskright;
 }
 
+
+function searchForTaskProj(taskname){
+    const projectList = getProjectList();
+    for (const proj of projectList) {
+        if (proj.getName() !== "Today" && proj.getName() !== "This Week") {
+            for (const task of proj.taskList) {
+                if (taskname === task.getName()) {
+                    return proj;
+                }
+            }
+        }
+    }
+    return null;
+}
+
 //execute target button clicked on newTaskLi
 function executeTaskClick(target, task, currProj) {
     if(target.classList[0] === 'task-close'){
         //if task delete button clicked
         const taskname = target.parentElement.previousElementSibling.textContent;
+
+        if(currProj.getName() == "This Week" || currProj.getName() == "Today"){
+            const originalProj = searchForTaskProj(task.getName());
+            if(originalProj != null){
+                deleteTask(taskname, originalProj);
+                saveProject(originalProj);
+            }
+        }
         deleteTask(taskname, currProj);
         saveProject(currProj);
         loadProject(currProj.getName());
@@ -418,12 +447,26 @@ function createTaskEditPopupDom(task, currProj) {
     const editTaskForm = document.querySelector('.edit-task-form');
     editTaskForm.addEventListener('submit', e => {
         e.preventDefault();
-        task.setName(editTitle.value);
-        task.setDescription(editDescription.value);
-        task.setDueDate(editDate.value);
-        const taskPriorityInput = document.querySelector('input[name="edit-priority"]:checked');
-        task.setPriority(taskPriorityInput.value);
-        saveProject(currProj);
+        if(currProj.getName() == "This Week" || currProj.getName() == "Today"){
+            const originalProj = searchForTaskProj(task.getName());
+            for (const originalTask of originalProj.taskList) {
+                if (task.getName() === originalTask.getName()) {
+                    originalTask.setName(editTitle.value);
+                    originalTask.setDescription(editDescription.value);
+                    originalTask.setDueDate(editDate.value);
+                    const taskPriorityInput = document.querySelector('input[name="edit-priority"]:checked');
+                    originalTask.setPriority(taskPriorityInput.value);
+                }
+            }
+            saveProject(originalProj);
+        }else {
+            task.setName(editTitle.value);
+            task.setDescription(editDescription.value);
+            task.setDueDate(editDate.value);
+            const taskPriorityInput = document.querySelector('input[name="edit-priority"]:checked');
+            task.setPriority(taskPriorityInput.value);
+            saveProject(currProj);
+        }        
         loadProject(currProj.getName());
         editTaskPopup.close();
     });
@@ -434,9 +477,5 @@ function createTaskEditPopupDom(task, currProj) {
         editTaskPopup.close();
     });
 }
-
-
-
-
 
 export {initNavBtns, initDefaultProjBtns, projFormInit, taskFormInit, loadProjectList, loadProject}
